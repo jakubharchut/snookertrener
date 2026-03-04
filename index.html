@@ -20,7 +20,6 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Pływające menu */
         .floating-nav {
             position: fixed;
             bottom: calc(1.5rem + env(safe-area-inset-bottom));
@@ -38,7 +37,6 @@
             z-index: 50;
         }
 
-        /* Kulki kolorów */
         .ball-btn {
             width: 3.5rem;
             height: 3.5rem;
@@ -52,6 +50,18 @@
             transition: transform 0.1s active;
         }
         .ball-btn:active { transform: scale(0.9); }
+        
+        .version-tag {
+            position: fixed;
+            bottom: 0.5rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 8px;
+            color: rgba(255, 255, 255, 0.2);
+            z-index: 40;
+            font-family: monospace;
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-white font-sans h-screen flex flex-col overflow-hidden">
@@ -114,11 +124,11 @@
             <div class="grid grid-cols-2 gap-4 relative z-10 text-center">
                 <div class="border-r border-slate-800">
                     <p class="text-slate-500 text-[10px] uppercase font-black tracking-widest mb-1">Break</p>
-                    <p id="current-break" class="text-6xl font-black text-white font-mono">0</p>
+                    <p id="current-break" class="text-6xl font-black text-white font-mono tabular-nums">0</p>
                 </div>
                 <div>
                     <p class="text-slate-500 text-[10px] uppercase font-black tracking-widest mb-1">Bile</p>
-                    <p id="pots-count" class="text-6xl font-black text-emerald-400 font-mono">0</p>
+                    <p id="pots-count" class="text-6xl font-black text-emerald-400 font-mono tabular-nums">0</p>
                 </div>
             </div>
         </div>
@@ -163,6 +173,8 @@
             <span class="text-[8px] mt-1 font-black uppercase">Rekordy</span>
         </button>
     </nav>
+
+    <div class="version-tag">ver 1.0.1</div>
 
     <script>
         if ('serviceWorker' in navigator) {
