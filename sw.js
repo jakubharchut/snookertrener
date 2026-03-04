@@ -1,4 +1,4 @@
-const CACHE_NAME = 'snooker-lab-v1.0.1';
+const CACHE_NAME = 'snooker-lab-v1.0.3';
 const ASSETS = [
   './index.html',
   './manifest.json',
@@ -6,7 +6,6 @@ const ASSETS = [
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
 ];
 
-// Instalacja Service Workera i buforowanie plików
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -15,7 +14,6 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Aktywacja i czyszczenie starych wersji
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -26,7 +24,6 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Obsługa zapytań sieciowych (Network-First dla aktualizacji)
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request).catch(() => {
