@@ -19,7 +19,6 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Floating Nav with Theme Support */
         .floating-nav {
             position: fixed;
             bottom: calc(1.5rem + env(safe-area-inset-bottom));
@@ -35,7 +34,6 @@
             z-index: 50;
         }
 
-        /* Ball Buttons Shadow */
         .ball-btn {
             width: 3.5rem;
             height: 3.5rem;
@@ -50,7 +48,6 @@
         }
         .ball-btn:active { transform: scale(0.9); }
         
-        /* Update Banner */
         #update-banner {
             display: none;
             position: fixed;
@@ -66,7 +63,6 @@
             z-index: 100;
         }
 
-        /* Theme specific colors */
         .theme-dark { background-color: #020617; color: #f8fafc; }
         .theme-dark .floating-nav { background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); }
         .theme-dark .card { background: #0f172a; border: 1px solid #1e293b; }
@@ -77,19 +73,17 @@
         .theme-light .card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
         .theme-light .history-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .theme-light .drill-card { background: #ffffff; border: 1px solid #e2e8f0; }
-        .theme-light .text-slate-400 { color: #64748b; }
-        .theme-light .text-slate-500 { color: #475569; }
         .theme-light header { background: rgba(255, 255, 255, 0.8); border-bottom: 1px solid #e2e8f0; }
     </style>
 </head>
 <body class="theme-dark font-sans h-screen flex flex-col overflow-hidden">
 
     <div id="update-banner" onclick="window.location.reload()">
-        Dostępna wersja 1.0.7! Odśwież 🚀
+        Nowa wersja (1.0.8)! Kliknij by odświeżyć 🚀
     </div>
 
     <!-- HEADER -->
-    <header class="p-4 flex justify-between items-center backdrop-blur-md sticky top-0 z-20 pt-[env(safe-area-inset-top)] transition-colors">
+    <header class="p-4 flex justify-between items-center backdrop-blur-md sticky top-0 z-20 pt-[env(safe-area-inset-top)]">
         <div class="flex items-center space-x-2">
             <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-900/20">
                 <i class="fas fa-cue text-slate-900 text-xs"></i>
@@ -104,7 +98,7 @@
     <!-- VIEW: HOME -->
     <main id="view-home" class="flex-1 overflow-y-auto p-5 space-y-6 pb-32">
         <section>
-            <h2 class="text-2xl font-bold mb-1 tracking-tight">Cześć! 👋</h2>
+            <h2 class="text-2xl font-bold mb-1 tracking-tight text-emerald-500">Cześć! 👋</h2>
             <p class="text-slate-400 text-sm font-medium">Co dziś trenujemy?</p>
         </section>
 
@@ -137,24 +131,24 @@
     </main>
 
     <!-- VIEW: SETTINGS -->
-    <main id="view-settings" class="hidden flex-1 overflow-y-auto p-5 space-y-6 pb-32 text-center">
-        <h2 class="text-2xl font-bold">Opcje</h2>
-        <div class="card p-6 rounded-3xl space-y-6 text-left">
+    <main id="view-settings" class="hidden flex-1 overflow-y-auto p-5 space-y-6 pb-32">
+        <h2 class="text-2xl font-bold mb-4 text-center">Opcje</h2>
+        <div class="card p-6 rounded-3xl space-y-6">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-3">
-                    <i class="fas fa-moon text-slate-500"></i>
-                    <span class="font-bold">Tryb Ciemny</span>
+                    <i class="fas fa-adjust text-emerald-500 text-xl"></i>
+                    <span class="font-bold text-lg tracking-tight">Tryb Ciemny</span>
                 </div>
-                <button onclick="toggleTheme()" id="theme-toggle-btn" class="w-14 h-7 bg-emerald-500 rounded-full relative transition-colors">
-                    <div id="theme-toggle-dot" class="w-5 h-5 bg-white rounded-full absolute top-1 left-8 transition-all"></div>
+                <button onclick="toggleTheme()" id="theme-toggle-btn" class="w-16 h-8 bg-emerald-500 rounded-full relative transition-all">
+                    <div id="theme-toggle-dot" class="w-6 h-6 bg-white rounded-full absolute top-1 left-9 shadow-md transition-all"></div>
                 </button>
             </div>
             <hr class="opacity-10">
-            <button onclick="clearAllData()" class="w-full text-rose-500 text-sm font-black uppercase tracking-widest text-center py-2">Wyczyść historię</button>
+            <button onclick="clearAllData()" class="w-full text-rose-500 text-xs font-black uppercase tracking-widest text-center py-2">Wyczyść całą historię</button>
         </div>
-        <div class="pt-20 opacity-30">
+        <div class="pt-20 opacity-30 text-center">
             <p class="text-[10px] font-black uppercase tracking-widest mb-1">Wersja Aplikacji</p>
-            <p class="font-mono text-sm font-bold text-emerald-500">v1.0.7</p>
+            <p class="font-mono text-xs font-bold text-emerald-500">v1.0.8</p>
         </div>
     </main>
 
@@ -163,12 +157,12 @@
         <div class="flex justify-between items-end px-1">
             <div>
                 <span id="active-drill-name" class="text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em]">DRILL</span>
-                <h2 class="text-xl font-bold">Sesja w toku</h2>
+                <h2 class="text-xl font-bold font-mono">Sesja w toku</h2>
             </div>
-            <div id="session-timer" class="text-sm font-mono text-slate-400 bg-slate-900/10 px-3 py-1 rounded-full border border-slate-500/20">00:00</div>
+            <div id="session-timer" class="text-sm font-mono text-slate-400 bg-slate-500/10 px-3 py-1 rounded-full border border-slate-500/20">00:00</div>
         </div>
 
-        <div class="card rounded-[2.5rem] p-6 text-center">
+        <div class="card rounded-[2.5rem] p-6 text-center shadow-2xl">
             <div class="grid grid-cols-3 gap-2">
                 <div class="border-r border-slate-500/10">
                     <p class="text-slate-500 text-[8px] uppercase font-black tracking-widest mb-1">Break</p>
@@ -193,12 +187,12 @@
             <button onclick="handleBall(5, 'bg-blue-600')" class="ball-btn bg-blue-600 text-white">5</button>
             <button onclick="handleBall(6, 'bg-pink-500')" class="ball-btn bg-pink-500 text-white">6</button>
             <button onclick="handleBall(7, 'bg-zinc-900')" class="ball-btn bg-zinc-900 text-white border border-slate-700">7</button>
-            <button onclick="handleMiss()" class="ball-btn bg-slate-200 dark:bg-slate-800 text-rose-500"><i class="fas fa-times text-xl"></i></button>
+            <button onclick="handleMiss()" class="ball-btn bg-slate-500/20 text-rose-500"><i class="fas fa-times text-xl"></i></button>
         </div>
 
         <div class="px-2">
-            <button onclick="resetRun()" class="w-full card py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-                <i class="fas fa-redo-alt mr-2"></i> Nowe podejście
+            <button onclick="resetRun()" class="w-full card py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 shadow-md">
+                <i class="fas fa-redo-alt mr-2 text-emerald-500"></i> Nowe podejście
             </button>
         </div>
 
@@ -214,22 +208,21 @@
 
     <!-- FLOATING NAV -->
     <nav class="floating-nav">
-        <button onclick="showView('home')" id="nav-home" class="flex flex-col items-center p-2 text-emerald-500">
+        <button onclick="showView('home')" id="nav-home" class="flex flex-col items-center p-2 text-emerald-500 transition-all active:scale-90">
             <i class="fas fa-bullseye text-xl"></i>
             <span class="text-[8px] mt-1 font-black uppercase">Start</span>
         </button>
-        <button onclick="showView('analytics')" id="nav-analytics" class="flex flex-col items-center p-2 text-slate-500">
+        <button onclick="showView('analytics')" id="nav-analytics" class="flex flex-col items-center p-2 text-slate-500 transition-all active:scale-90">
             <i class="fas fa-chart-line text-xl"></i>
             <span class="text-[8px] mt-1 font-black uppercase">Postęp</span>
         </button>
-        <button onclick="showView('settings')" id="nav-settings" class="flex flex-col items-center p-2 text-slate-500">
+        <button onclick="showView('settings')" id="nav-settings" class="flex flex-col items-center p-2 text-slate-500 transition-all active:scale-90">
             <i class="fas fa-cog text-xl"></i>
             <span class="text-[8px] mt-1 font-black uppercase">Opcje</span>
         </button>
     </nav>
 
     <script>
-        // PWA & Theme Init
         let state = {
             currentView: 'home',
             drillName: '',
@@ -249,8 +242,8 @@
             const dot = document.getElementById('theme-toggle-dot');
             const btn = document.getElementById('theme-toggle-btn');
             if (dot) {
-                dot.style.left = isDark ? '2rem' : '0.25rem';
-                btn.className = isDark ? 'w-14 h-7 bg-emerald-500 rounded-full relative transition-colors' : 'w-14 h-7 bg-slate-300 rounded-full relative transition-colors';
+                dot.style.left = isDark ? '2.25rem' : '0.25rem';
+                btn.className = isDark ? 'w-16 h-8 bg-emerald-500 rounded-full relative transition-all' : 'w-16 h-8 bg-slate-300 rounded-full relative transition-all';
             }
         }
 
@@ -366,26 +359,26 @@
                 return;
             }
             list.innerHTML = history.map(s => `
-                <div class="history-card p-4 rounded-2xl mb-3">
+                <div class="history-card p-4 rounded-2xl mb-3 shadow-sm border border-slate-500/5">
                     <div class="flex justify-between items-start mb-2">
                         <div>
                             <p class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">${s.drill}</p>
-                            <p class="text-[10px] opacity-50">${s.date}</p>
+                            <p class="text-[10px] opacity-50 font-mono">${s.date}</p>
                         </div>
-                        <div class="text-right font-mono text-xs opacity-50">${s.time}</div>
+                        <div class="text-right font-mono text-[10px] opacity-50">${s.time}</div>
                     </div>
                     <div class="grid grid-cols-3 gap-2 mt-2">
                         <div class="text-center">
-                            <p class="text-[7px] uppercase opacity-50 font-bold">Max Break</p>
-                            <p class="text-lg font-black">${s.maxBreak}</p>
+                            <p class="text-[7px] uppercase opacity-50 font-bold mb-1 tracking-tighter text-slate-500">Max Break</p>
+                            <p class="text-xl font-black">${s.maxBreak}</p>
+                        </div>
+                        <div class="text-center border-x border-slate-500/10">
+                            <p class="text-[7px] uppercase opacity-50 font-bold mb-1 tracking-tighter text-slate-500">Wbite</p>
+                            <p class="text-xl font-black text-emerald-500">${s.pots}</p>
                         </div>
                         <div class="text-center">
-                            <p class="text-[7px] uppercase opacity-50 font-bold">Wbite</p>
-                            <p class="text-lg font-black text-emerald-500">${s.pots}</p>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-[7px] uppercase opacity-50 font-bold">Pudła</p>
-                            <p class="text-lg font-black text-rose-500">${s.misses || 0}</p>
+                            <p class="text-[7px] uppercase opacity-50 font-bold mb-1 tracking-tighter text-slate-500">Pudła</p>
+                            <p class="text-xl font-black text-rose-500">${s.misses || 0}</p>
                         </div>
                     </div>
                 </div>
@@ -409,7 +402,6 @@
             }, 1000);
         }
 
-        // Init Theme
         applyTheme();
     </script>
 </body>
