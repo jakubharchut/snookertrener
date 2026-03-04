@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Snooker Lab</title>
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3256/3256163.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { -webkit-tap-highlight-color: transparent; overscroll-behavior-y: contain; }
+        .safe-area-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); }
+        .drill-card:active { transform: scale(0.98); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-900 text-white font-sans h-screen flex flex-col overflow-hidden">
+
+    <!-- HEADER -->
+    <header class="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/80 backdrop-blur-md sticky top-0 z-20 pt-[env(safe-area-inset-top)]">
+        <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-900/20">
+                <i class="fas fa-cue text-slate-900 text-xs"></i>
+            </div>
+            <h1 class="text-xl font-black tracking-tighter italic uppercase">SNOOKER<span class="text-emerald-500 font-light not-italic ml-0.5">LAB</span></h1>
+        </div>
+        <button id="back-btn" onclick="showView('home')" class="hidden bg-slate-800 px-3 py-1 rounded-full text-xs font-bold text-slate-400">
+            <i class="fas fa-chevron-left mr-1"></i> WRÓĆ
+        </button>
+    </header>
+
+    <!-- VIEW: HOME (MENU) -->
+    <main id="view-home" class="flex-1 overflow-y-auto p-5 space-y-6">
+        <section>
+            <h2 class="text-2xl font-bold mb-1 tracking-tight">Cześć! 👋</h2>
+            <p class="text-slate-400 text-sm font-medium">Wybierz trening i poprawiaj statystyki.</p>
+        </section>
+
+        <div class="grid grid-cols-1 gap-4">
+            <!-- Free Practice -->
+            <button onclick="startDrill('Dowolne wbijanie')" class="drill-card text-left bg-gradient-to-br from-slate-800 to-slate-900 p-5 rounded-2xl border border-slate-700/50 shadow-xl flex items-center space-x-4 transition-all">
+                <div class="w-14 h-14 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-500 text-2xl">
+                    <i class="fas fa-random"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg leading-tight">Dowolne wbijanie</h3>
+                    <p class="text-slate-500 text-xs italic">Wszystkie bile, breaki, czysty fun.</p>
+                </div>
+                <i class="fas fa-chevron-right text-slate-700 text-xs"></i>
+            </button>
+
+            <!-- Line Up -->
+            <button onclick="startDrill('Line-up')" class="drill-card text-left bg-gradient-to-br from-slate-800 to-slate-900 p-5 rounded-2xl border border-slate-700/50 shadow-xl flex items-center space-x-4 transition-all">
+                <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-500 text-2xl">
+                    <i class="fas fa-align-center"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg leading-tight">Line-up</h3>
+                    <p class="text-slate-500 text-xs italic">Kontrola białej i pozycjonowanie.</p>
+                </div>
+                <i class="fas fa-chevron-right text-slate-700 text-xs"></i>
+            </button>
+
+            <!-- T-Drill -->
+            <button onclick="startDrill('T-Drill')" class="drill-card text-left bg-gradient-to-br from-slate-800 to-slate-900 p-5 rounded-2xl border border-slate-700/50 shadow-xl flex items-center space-x-4 transition-all">
+                <div class="w-14 h-14 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-500 text-2xl">
+                    <i class="fas fa-th-large"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg leading-tight">T-Drill</h3>
+                    <p class="text-slate-500 text-xs italic">Ćwiczenie na wyczucie kątów.</p>
+                </div>
+                <i class="fas fa-chevron-right text-slate-700 text-xs"></i>
+            </button>
+        </div>
+
+        <!-- Quick Stats Widget -->
+        <div class="grid grid-cols-2 gap-4 pt-2">
+            <div class="bg-slate-800/40 p-4 rounded-2xl border border-slate-800">
+                <p class="text-slate-500 text-[10px] uppercase font-bold tracking-widest mb-1">Dziś trenowano</p>
+                <p id="total-time-today" class="font-mono text-emerald-400 font-bold">0 min</p>
+            </div>
+            <div class="bg-slate-800/40 p-4 rounded-2xl border border-slate-800">
+                <p class="text-slate-500 text-[10px] uppercase font-bold tracking-widest mb-1">Najlepszy Break</p>
+                <p id="best-break-today" class="font-mono text-white font-bold">0</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- VIEW: TRAINING SESSION -->
+    <main id="view-training" class="hidden flex-1 overflow-y-auto p-4 space-y-6">
+        <div class="flex justify-between items-end">
+            <div>
+                <span id="active-drill-name" class="text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em]">DRILL</span>
+                <h2 class="text-xl font-bold">Sesja w toku</h2>
+            </div>
+            <div id="session-timer" class="text-sm font-mono text-slate-400 bg-slate-800/80 px-3 py-1 rounded-full border border-slate-700">00:00</div>
+        </div>
+
+        <!-- Main Stats Card -->
+        <div class="bg-slate-800 rounded-[2.5rem] p-8 shadow-2xl border border-emerald-500/20 relative overflow-hidden">
+            <div class="absolute -top-6 -right-6 p-4 opacity-[0.03] rotate-12">
+                <i class="fas fa-trophy text-[120px]"></i>
+            </div>
+            <div class="grid grid-cols-2 gap-4 relative z-10">
+                <div class="text-center border-r border-slate-700/50">
+                    <p class="text-slate-500 text-[10px] uppercase font-black tracking-widest mb-2">Break</p>
+                    <p id="current-break" class="text-6xl font-black text-white font-mono tabular-nums">0</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-slate-500 text-[10px] uppercase font-black tracking-widest mb-2">Skuteczność</p>
+                    <p id="accuracy" class="text-6xl font-black text-emerald-400 font-mono tabular-nums">0%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Controls -->
+        <div class="space-y-4">
+            <button onclick="handleAction('pot')" class="w-full bg-emerald-600 active:bg-emerald-700 h-36 rounded-[2rem] shadow-lg shadow-emerald-900/40 flex flex-col items-center justify-center space-y-2 border-b-8 border-emerald-800 active:border-b-0 active:translate-y-2 transition-all">
+                <i class="fas fa-plus-circle text-4xl"></i>
+                <span class="font-black text-2xl uppercase tracking-tighter">WBITA BILA</span>
+            </button>
+
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="handleAction('miss')" class="bg-slate-700 active:bg-slate-800 py-7 rounded-2xl border-b-4 border-slate-900 active:border-b-0 active:translate-y-1 transition-all flex flex-col items-center">
+                    <i class="fas fa-times-circle text-2xl text-rose-500 mb-1"></i>
+                    <span class="font-black text-[10px] uppercase tracking-widest text-slate-300">PUDŁO</span>
+                </button>
+                <button onclick="handleAction('end')" class="bg-slate-800 active:bg-slate-900 py-7 rounded-2xl border-b-4 border-slate-950 active:border-b-0 active:translate-y-1 transition-all flex flex-col items-center">
+                    <i class="fas fa-flag-checkered text-2xl text-amber-500 mb-1"></i>
+                    <span class="font-black text-[10px] uppercase tracking-widest text-slate-400">KONIEC</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- History Strip -->
+        <div class="space-y-3 pb-8">
+            <h3 class="text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] px-1">Ostatnie zagrania</h3>
+            <div id="shots-log" class="flex space-x-2 overflow-x-auto pb-2 no-scrollbar px-1">
+                <!-- Log entries will appear here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="bg-slate-900/95 backdrop-blur-lg border-t border-slate-800/50 flex justify-around items-center safe-area-bottom pb-[calc(1rem+env(safe-area-inset-bottom))] pt-3 z-20">
+        <button onclick="showView('home')" id="nav-home" class="flex flex-col items-center p-2 text-emerald-500 transition-all scale-110">
+            <i class="fas fa-home text-xl"></i>
+            <span class="text-[9px] mt-1 font-black uppercase tracking-widest">Start</span>
+        </button>
+        <button class="flex flex-col items-center p-2 text-slate-600">
+            <i class="fas fa-chart-bar text-xl"></i>
+            <span class="text-[9px] mt-1 font-black uppercase tracking-widest">Analiza</span>
+        </button>
+        <button class="flex flex-col items-center p-2 text-slate-600">
+            <i class="fas fa-cog text-xl"></i>
+            <span class="text-[9px] mt-1 font-black uppercase tracking-widest">Ustawienia</span>
+        </button>
+    </nav>
+
+    <script>
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker zarejestrowany!'))
+                    .catch(err => console.log('Błąd SW:', err));
+            });
+        }
+
+        let state = {
+            currentView: 'home',
+            drillName: '',
+            breakScore: 0,
+            totalPots: 0,
+            totalMisses: 0,
+            startTime: null,
+            timerInterval: null,
+            bestBreak: 0
+        };
+
+        function showView(viewName) {
+            state.currentView = viewName;
+            document.getElementById('view-home').classList.toggle('hidden', viewName !== 'home');
+            document.getElementById('view-training').classList.toggle('hidden', viewName !== 'training');
+            document.getElementById('back-btn').classList.toggle('hidden', viewName === 'home');
+            
+            // UI state for nav
+            const navHome = document.getElementById('nav-home');
+            navHome.classList.toggle('text-emerald-500', viewName === 'home');
+            navHome.classList.toggle('text-slate-600', viewName !== 'home');
+            navHome.classList.toggle('scale-110', viewName === 'home');
+
+            if (viewName === 'home') {
+                clearInterval(state.timerInterval);
+                state.breakScore = 0;
+            }
+        }
+
+        function startDrill(name) {
+            state.drillName = name;
+            state.breakScore = 0;
+            state.totalPots = 0;
+            state.totalMisses = 0;
+            state.startTime = new Date();
+            
+            document.getElementById('active-drill-name').innerText = name;
+            document.getElementById('shots-log').innerHTML = '';
+            updateUI();
+            
+            showView('training');
+            startTimer();
+        }
+
+        function handleAction(type) {
+            vibrate();
+            if (type === 'pot') {
+                state.breakScore++;
+                state.totalPots++;
+                if(state.breakScore > state.bestBreak) {
+                    state.bestBreak = state.breakScore;
+                    document.getElementById('best-break-today').innerText = state.bestBreak;
+                }
+                addLog('pot');
+            } else if (type === 'miss') {
+                state.breakScore = 0;
+                state.totalMisses++;
+                addLog('miss');
+            } else if (type === 'end') {
+                if(confirm('Zakończyć sesję treningową?')) {
+                    showView('home');
+                }
+            }
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('current-break').innerText = state.breakScore;
+            const total = state.totalPots + state.totalMisses;
+            const acc = total === 0 ? 0 : Math.round((state.totalPots / total) * 100);
+            document.getElementById('accuracy').innerText = acc + '%';
+        }
+
+        function addLog(type) {
+            const log = document.getElementById('shots-log');
+            const item = document.createElement('div');
+            item.className = `w-12 h-12 rounded-2xl flex-shrink-0 flex items-center justify-center font-bold text-xl shadow-lg transition-all animate-in zoom-in duration-300 ${type === 'pot' ? 'bg-emerald-500 text-slate-900' : 'bg-rose-500 text-white'}`;
+            item.innerHTML = type === 'pot' ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>';
+            log.prepend(item);
+        }
+
+        function startTimer() {
+            clearInterval(state.timerInterval);
+            state.timerInterval = setInterval(() => {
+                const now = new Date();
+                const diff = Math.floor((now - state.startTime) / 1000);
+                const m = Math.floor(diff / 60).toString().padStart(2, '0');
+                const s = (diff % 60).toString().padStart(2, '0');
+                document.getElementById('session-timer').innerText = `${m}:${s}`;
+            }, 1000);
+        }
+
+        function vibrate() {
+            if (navigator.vibrate) navigator.vibrate(12);
+        }
+    </script>
+</body>
+</html>
