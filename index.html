@@ -64,12 +64,20 @@
             font-weight: bold;
             z-index: 100;
         }
+
+        .history-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-white font-sans h-screen flex flex-col overflow-hidden">
 
     <div id="update-banner" onclick="window.location.reload()">
-        Dostępna nowa wersja (1.0.3)! Odśwież 🚀
+        Dostępna nowa wersja (1.0.4)! Odśwież 🚀
     </div>
 
     <!-- HEADER -->
@@ -114,28 +122,24 @@
         </div>
     </main>
 
+    <!-- VIEW: ANALYTICS -->
+    <main id="view-analytics" class="hidden flex-1 overflow-y-auto p-5 space-y-6 pb-32">
+        <h2 class="text-2xl font-bold mb-4 tracking-tight">Twoja Historia</h2>
+        <div id="history-list" class="space-y-4">
+            <!-- Tutaj wylądują wyniki -->
+            <p class="text-slate-600 text-center py-10 italic">Brak zapisanych treningów.</p>
+        </div>
+    </main>
+
     <!-- VIEW: SETTINGS -->
     <main id="view-settings" class="hidden flex-1 overflow-y-auto p-5 space-y-6 pb-32 text-center">
         <h2 class="text-2xl font-bold">Opcje</h2>
-        
-        <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4">
-            <div class="flex justify-between items-center">
-                <span>Dźwięki</span>
-                <div class="w-12 h-6 bg-emerald-600 rounded-full flex items-center px-1">
-                    <div class="w-4 h-4 bg-white rounded-full"></div>
-                </div>
-            </div>
-            <div class="flex justify-between items-center">
-                <span>Wibracje</span>
-                <div class="w-12 h-6 bg-emerald-600 rounded-full flex items-center px-1">
-                    <div class="w-4 h-4 bg-white rounded-full"></div>
-                </div>
-            </div>
+        <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4 text-left">
+            <button onclick="clearAllData()" class="w-full text-rose-500 text-sm font-bold uppercase py-2">Wyczyść wszystkie dane</button>
         </div>
-
         <div class="pt-20 opacity-30">
             <p class="text-[10px] font-black uppercase tracking-widest mb-1">Wersja Aplikacji</p>
-            <p class="font-mono text-sm font-bold text-emerald-500">v1.0.3</p>
+            <p class="font-mono text-sm font-bold text-emerald-500">v1.0.4</p>
         </div>
     </main>
 
@@ -179,16 +183,17 @@
         </div>
         
         <button onclick="endSession()" class="w-full py-4 text-slate-500 text-[10px] font-black uppercase tracking-widest">
-            Zakończ sesję
+            Zakończ i zapisz sesję
         </button>
     </main>
 
+    <!-- FLOATING NAV -->
     <nav class="floating-nav">
         <button onclick="showView('home')" id="nav-home" class="flex flex-col items-center p-2 text-emerald-500">
             <i class="fas fa-bullseye text-xl"></i>
             <span class="text-[8px] mt-1 font-black uppercase">Start</span>
         </button>
-        <button class="flex flex-col items-center p-2 text-slate-500 opacity-50">
+        <button onclick="showView('analytics')" id="nav-analytics" class="flex flex-col items-center p-2 text-slate-500">
             <i class="fas fa-chart-line text-xl"></i>
             <span class="text-[8px] mt-1 font-black uppercase">Postęp</span>
         </button>
@@ -216,7 +221,9 @@
 
         let state = {
             currentView: 'home',
+            drillName: '',
             breakScore: 0,
+            maxBreak: 0,
             totalPots: 0,
             startTime: null,
             timerInterval: null
@@ -227,19 +234,25 @@
             document.getElementById('view-home').classList.toggle('hidden', viewName !== 'home');
             document.getElementById('view-training').classList.toggle('hidden', viewName !== 'training');
             document.getElementById('view-settings').classList.toggle('hidden', viewName !== 'settings');
+            document.getElementById('view-analytics').classList.toggle('hidden', viewName !== 'analytics');
             
-            document.getElementById('back-btn').classList.toggle('hidden', viewName === 'home' || viewName === 'settings');
+            document.getElementById('back-btn').classList.toggle('hidden', viewName === 'home' || viewName === 'settings' || viewName === 'analytics');
             
             document.getElementById('nav-home').classList.toggle('text-emerald-500', viewName === 'home');
             document.getElementById('nav-home').classList.toggle('text-slate-500', viewName !== 'home');
+            document.getElementById('nav-analytics').classList.toggle('text-emerald-500', viewName === 'analytics');
+            document.getElementById('nav-analytics').classList.toggle('text-slate-500', viewName !== 'analytics');
             document.getElementById('nav-settings').classList.toggle('text-emerald-500', viewName === 'settings');
             document.getElementById('nav-settings').classList.toggle('text-slate-500', viewName !== 'settings');
 
+            if (viewName === 'analytics') renderHistory();
             if (viewName === 'home') clearInterval(state.timerInterval);
         }
 
         function startDrill(name) {
+            state.drillName = name;
             state.breakScore = 0;
+            state.maxBreak = 0;
             state.totalPots = 0;
             state.startTime = new Date();
             document.getElementById('active-drill-name').innerText = name;
@@ -253,6 +266,8 @@
             vibrate(15);
             state.breakScore += points;
             state.totalPots++;
+            if (state.breakScore > state.maxBreak) state.maxBreak = state.breakScore;
+            
             const log = document.getElementById('shots-log');
             const item = document.createElement('div');
             item.className = `w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center font-black text-sm shadow-lg animate-in zoom-in duration-200 ${colorClass} ${points === 2 || points === 7 ? 'text-slate-900' : 'text-white'}`;
@@ -278,7 +293,61 @@
         }
 
         function endSession() {
-            if(confirm('Zakończyć sesję?')) showView('home');
+            if(confirm('Zakończyć i zapisać sesję?')) {
+                const session = {
+                    date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                    drill: state.drillName,
+                    maxBreak: state.maxBreak,
+                    pots: state.totalPots,
+                    time: document.getElementById('session-timer').innerText
+                };
+                
+                const history = JSON.parse(localStorage.getItem('snookerHistory') || '[]');
+                history.unshift(session);
+                localStorage.setItem('snookerHistory', JSON.stringify(history.slice(0, 50))); // trzymaj max 50
+                
+                showView('home');
+            }
+        }
+
+        function renderHistory() {
+            const history = JSON.parse(localStorage.getItem('snookerHistory') || '[]');
+            const list = document.getElementById('history-list');
+            
+            if (history.length === 0) {
+                list.innerHTML = '<p class="text-slate-600 text-center py-10 italic">Brak zapisanych treningów.</p>';
+                return;
+            }
+
+            list.innerHTML = history.map(s => `
+                <div class="history-card">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <p class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">${s.drill}</p>
+                            <p class="text-xs text-slate-500">${s.date}</p>
+                        </div>
+                        <div class="text-right font-mono text-sm text-slate-400">${s.time}</div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-950/50 rounded-xl p-3 text-center">
+                            <p class="text-[8px] uppercase text-slate-600 font-bold mb-1">Max Break</p>
+                            <p class="text-xl font-black text-white">${s.maxBreak}</p>
+                        </div>
+                        <div class="bg-slate-950/50 rounded-xl p-3 text-center">
+                            <p class="text-[8px] uppercase text-slate-600 font-bold mb-1">Wbite bile</p>
+                            <p class="text-xl font-black text-emerald-400">${s.pots}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function clearAllData() {
+            if(confirm('Czy na pewno chcesz usunąć całą historię treningów?')) {
+                localStorage.removeItem('snookerHistory');
+                renderHistory();
+                alert('Dane wyczyszczone.');
+            }
         }
 
         function startTimer() {
