@@ -79,10 +79,9 @@
 <body class="theme-dark font-sans h-screen flex flex-col overflow-hidden">
 
     <div id="update-banner" onclick="window.location.reload()">
-        Nowa wersja (1.1.0)! Kliknij by odświeżyć 🚀
+        Aktualizacja 1.1.1! Kliknij tutaj 🚀
     </div>
 
-    <!-- HEADER -->
     <header class="p-4 flex justify-between items-center backdrop-blur-md sticky top-0 z-20 pt-[env(safe-area-inset-top)]">
         <div class="flex items-center space-x-2">
             <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-900/20">
@@ -95,86 +94,69 @@
         </button>
     </header>
 
-    <!-- VIEW: HOME -->
     <main id="view-home" class="flex-1 overflow-y-auto p-5 space-y-6 pb-32">
         <section>
             <h2 class="text-2xl font-bold mb-1 tracking-tight text-emerald-500">Cześć! 👋</h2>
             <p class="text-slate-400 text-sm font-medium">Co dziś trenujemy?</p>
         </section>
-
         <div class="grid grid-cols-1 gap-4">
-            <button onclick="startDrill('Dowolne wbijanie')" class="drill-card card text-left p-5 rounded-3xl flex items-center space-x-4 transition-all active:scale-95">
-                <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-500 text-2xl">
-                    <i class="fas fa-random"></i>
-                </div>
-                <div class="flex-1">
-                    <h3 class="font-bold text-lg leading-tight">Dowolne wbijanie</h3>
-                    <p class="text-slate-500 text-xs italic">Breaki i czysty fun.</p>
-                </div>
+            <button onclick="startDrill('Dowolne wbijanie')" class="drill-card card text-left p-5 rounded-3xl flex items-center space-x-4 active:scale-95 transition-all">
+                <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-500 text-2xl"><i class="fas fa-random"></i></div>
+                <div class="flex-1"><h3 class="font-bold text-lg leading-tight">Dowolne wbijanie</h3><p class="text-slate-500 text-xs italic">Czysty trening.</p></div>
             </button>
-            <button onclick="startDrill('Line-up')" class="drill-card card text-left p-5 rounded-3xl flex items-center space-x-4 transition-all active:scale-95">
-                <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-500 text-2xl">
-                    <i class="fas fa-align-center"></i>
-                </div>
-                <div class="flex-1">
-                    <h3 class="font-bold text-lg leading-tight">Line-up</h3>
-                    <p class="text-slate-500 text-xs italic">Klasyczna kontrola bili.</p>
-                </div>
+            <button onclick="startDrill('Line-up')" class="drill-card card text-left p-5 rounded-3xl flex items-center space-x-4 active:scale-95 transition-all">
+                <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-500 text-2xl"><i class="fas fa-align-center"></i></div>
+                <div class="flex-1"><h3 class="font-bold text-lg leading-tight">Line-up</h3><p class="text-slate-500 text-xs italic">Klasyczne ustawienie.</p></div>
             </button>
         </div>
     </main>
 
-    <!-- VIEW: ANALYTICS -->
     <main id="view-analytics" class="hidden flex-1 overflow-y-auto p-5 space-y-6 pb-32">
-        <h2 class="text-2xl font-bold mb-4 tracking-tight">Twoja Historia</h2>
+        <h2 class="text-2xl font-bold mb-4 tracking-tight text-center">Historia Treningów</h2>
         <div id="history-list" class="space-y-4"></div>
     </main>
 
-    <!-- VIEW: SETTINGS -->
     <main id="view-settings" class="hidden flex-1 overflow-y-auto p-5 space-y-6 pb-32">
         <h2 class="text-2xl font-bold mb-4 text-center">Opcje</h2>
         <div class="card p-6 rounded-3xl space-y-6">
             <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-3">
-                    <i class="fas fa-adjust text-emerald-500 text-xl"></i>
-                    <span class="font-bold text-lg tracking-tight">Tryb Ciemny</span>
-                </div>
+                <div class="flex items-center space-x-3"><i class="fas fa-adjust text-emerald-500 text-xl"></i><span class="font-bold">Tryb Ciemny</span></div>
                 <button onclick="toggleTheme()" id="theme-toggle-btn" class="w-16 h-8 bg-emerald-500 rounded-full relative transition-all">
-                    <div id="theme-toggle-dot" class="w-6 h-6 bg-white rounded-full absolute top-1 left-9 shadow-md transition-all"></div>
+                    <div id="theme-toggle-dot" class="w-6 h-6 bg-white rounded-full absolute top-1 left-9 transition-all"></div>
                 </button>
             </div>
             <hr class="opacity-10">
-            <button onclick="clearAllData()" class="w-full text-rose-500 text-xs font-black uppercase tracking-widest text-center py-2">Wyczyść całą historię</button>
+            <button onclick="clearAllData()" class="w-full text-rose-500 text-xs font-black uppercase py-2">Wyczyść historię</button>
         </div>
-        <div class="pt-20 opacity-30 text-center">
-            <p class="text-[10px] font-black uppercase tracking-widest mb-1">Wersja Aplikacji</p>
-            <p class="font-mono text-xs font-bold text-emerald-500">v1.1.0</p>
-        </div>
+        <div class="pt-20 opacity-30 text-center"><p class="text-[10px] font-black uppercase mb-1">Wersja</p><p class="font-mono text-xs font-bold text-emerald-500">v1.1.1</p></div>
     </main>
 
-    <!-- VIEW: TRAINING -->
     <main id="view-training" class="hidden flex-1 overflow-y-auto p-4 space-y-6 pb-40">
         <div class="flex justify-between items-end px-1">
-            <div>
-                <span id="active-drill-name" class="text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em]">DRILL</span>
-                <h2 class="text-xl font-bold font-mono text-slate-500">Sesja</h2>
-            </div>
+            <div><span id="active-drill-name" class="text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em]">DRILL</span><h2 class="text-xl font-bold">Sesja</h2></div>
             <div id="session-timer" class="text-sm font-mono text-slate-400 bg-slate-500/10 px-3 py-1 rounded-full border border-slate-500/20">00:00</div>
         </div>
 
-        <div class="card rounded-[2.5rem] p-6 text-center shadow-2xl">
-            <div class="grid grid-cols-3 gap-2">
-                <div class="border-r border-slate-500/10">
-                    <p class="text-slate-500 text-[8px] uppercase font-black tracking-widest mb-1">Break</p>
-                    <p id="current-break" class="text-4xl font-black font-mono tabular-nums text-emerald-500">0</p>
+        <!-- NEW 2x2 SCOREBOARD -->
+        <div class="card rounded-[2.5rem] p-6 shadow-2xl space-y-4">
+            <div class="grid grid-cols-2 gap-4 border-b border-slate-500/10 pb-4">
+                <div class="text-center">
+                    <p class="text-slate-500 text-[8px] uppercase font-black tracking-widest mb-1">BREAK (Pkt)</p>
+                    <p id="current-break" class="text-4xl font-black font-mono text-emerald-500 tabular-nums">0</p>
                 </div>
-                <div class="border-r border-slate-500/10">
-                    <p class="text-slate-500 text-[8px] uppercase font-black tracking-widest mb-1">Wbite (S)</p>
-                    <p id="pots-count" class="text-4xl font-black font-mono tabular-nums">0</p>
+                <div class="text-center">
+                    <p class="text-slate-500 text-[8px] uppercase font-black tracking-widest mb-1">BILE (Podejście)</p>
+                    <p id="run-pots" class="text-4xl font-black font-mono text-blue-400 tabular-nums">0</p>
                 </div>
-                <div>
-                    <p class="text-slate-500 text-[8px] uppercase font-black tracking-widest mb-1">Pudła</p>
-                    <p id="miss-count" class="text-4xl font-black text-rose-500 font-mono tabular-nums">0</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="text-center border-r border-slate-500/10">
+                    <p class="text-slate-500 text-[8px] uppercase font-black tracking-widest mb-1">SUMA BILE</p>
+                    <p id="pots-count" class="text-3xl font-black font-mono tabular-nums">0</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-slate-500 text-[8px] uppercase font-black tracking-widest mb-1">PUDŁA</p>
+                    <p id="miss-count" class="text-3xl font-black font-mono text-rose-500 tabular-nums">0</p>
                 </div>
             </div>
         </div>
@@ -191,35 +173,23 @@
         </div>
 
         <div class="px-2">
-            <button onclick="resetRun()" class="w-full card py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 shadow-md">
+            <button onclick="resetRun()" class="w-full card py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 shadow-md active:bg-blue-500/10">
                 <i class="fas fa-redo-alt mr-2 text-blue-500"></i> Nowe podejście
             </button>
         </div>
 
         <div class="space-y-2">
-            <h3 class="text-[10px] font-black text-slate-600 uppercase tracking-widest px-1 text-center">Aktualne podejście</h3>
+            <h3 class="text-[10px] font-black text-slate-600 uppercase tracking-widest px-1 text-center">Kolejność podejścia</h3>
             <div id="shots-log" class="flex space-x-2 overflow-x-auto pb-4 no-scrollbar min-h-[3rem] justify-center"></div>
         </div>
         
-        <button onclick="endSession()" class="w-full py-4 text-slate-500 text-[10px] font-black uppercase tracking-widest">
-            Zakończ sesję
-        </button>
+        <button onclick="endSession()" class="w-full py-4 text-slate-500 text-[10px] font-black uppercase tracking-widest">Zakończ sesję</button>
     </main>
 
-    <!-- FLOATING NAV -->
     <nav class="floating-nav">
-        <button onclick="showView('home')" id="nav-home" class="flex flex-col items-center p-2 text-emerald-500 transition-all active:scale-90">
-            <i class="fas fa-bullseye text-xl"></i>
-            <span class="text-[8px] mt-1 font-black uppercase">Start</span>
-        </button>
-        <button onclick="showView('analytics')" id="nav-analytics" class="flex flex-col items-center p-2 text-slate-500 transition-all active:scale-90">
-            <i class="fas fa-chart-line text-xl"></i>
-            <span class="text-[8px] mt-1 font-black uppercase">Postęp</span>
-        </button>
-        <button onclick="showView('settings')" id="nav-settings" class="flex flex-col items-center p-2 text-slate-500 transition-all active:scale-90">
-            <i class="fas fa-cog text-xl"></i>
-            <span class="text-[8px] mt-1 font-black uppercase">Opcje</span>
-        </button>
+        <button onclick="showView('home')" id="nav-home" class="flex flex-col items-center p-2 text-emerald-500"><i class="fas fa-bullseye text-xl"></i><span class="text-[8px] mt-1 font-black uppercase">Start</span></button>
+        <button onclick="showView('analytics')" id="nav-analytics" class="flex flex-col items-center p-2 text-slate-500"><i class="fas fa-chart-line text-xl"></i><span class="text-[8px] mt-1 font-black uppercase">Postęp</span></button>
+        <button onclick="showView('settings')" id="nav-settings" class="flex flex-col items-center p-2 text-slate-500"><i class="fas fa-cog text-xl"></i><span class="text-[8px] mt-1 font-black uppercase">Opcje</span></button>
     </nav>
 
     <script>
@@ -227,6 +197,7 @@
             currentView: 'home',
             drillName: '',
             breakScore: 0,
+            runPots: 0,
             maxBreak: 0,
             totalPots: 0,
             totalMisses: 0,
@@ -285,6 +256,7 @@
         function startDrill(name) {
             state.drillName = name;
             state.breakScore = 0;
+            state.runPots = 0;
             state.maxBreak = 0;
             state.totalPots = 0;
             state.totalMisses = 0;
@@ -298,8 +270,10 @@
 
         function handleBall(points, colorClass) {
             state.breakScore += points;
+            state.runPots++;
             state.totalPots++;
             if (state.breakScore > state.maxBreak) state.maxBreak = state.breakScore;
+            
             const log = document.getElementById('shots-log');
             const item = document.createElement('div');
             item.className = `w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center font-black text-sm shadow-lg animate-in zoom-in duration-200 ${colorClass} ${points === 2 || points === 7 ? 'text-slate-900' : 'text-white'}`;
@@ -311,27 +285,27 @@
         function handleMiss() {
             state.totalMisses++;
             state.breakScore = 0;
+            state.runPots = 0;
             document.getElementById('shots-log').innerHTML = '';
             updateUI();
         }
 
         function resetRun() {
             state.breakScore = 0;
+            state.runPots = 0;
             document.getElementById('shots-log').innerHTML = '';
             updateUI();
         }
 
         function updateUI() {
             document.getElementById('current-break').innerText = state.breakScore;
+            document.getElementById('run-pots').innerText = state.runPots;
             document.getElementById('pots-count').innerText = state.totalPots;
             document.getElementById('miss-count').innerText = state.totalMisses;
         }
 
         function endSession() {
-            if (state.totalPots === 0 && state.totalMisses === 0) {
-                showView('home');
-                return;
-            }
+            if (state.totalPots === 0 && state.totalMisses === 0) { showView('home'); return; }
             if(confirm('Zakończyć i zapisać sesję?')) {
                 const session = {
                     date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
@@ -351,43 +325,23 @@
         function renderHistory() {
             const history = JSON.parse(localStorage.getItem('snookerHistory') || '[]');
             const list = document.getElementById('history-list');
-            if (history.length === 0) {
-                list.innerHTML = '<p class="text-slate-400 text-center py-10 italic">Brak zapisanych treningów.</p>';
-                return;
-            }
+            if (history.length === 0) { list.innerHTML = '<p class="text-slate-400 text-center py-10 italic">Brak sesji.</p>'; return; }
             list.innerHTML = history.map(s => `
                 <div class="history-card p-4 rounded-2xl mb-3 shadow-sm border border-slate-500/5 transition-all">
                     <div class="flex justify-between items-start mb-2">
-                        <div>
-                            <p class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">${s.drill}</p>
-                            <p class="text-[10px] opacity-50 font-mono">${s.date}</p>
-                        </div>
+                        <div><p class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">${s.drill}</p><p class="text-[10px] opacity-50 font-mono">${s.date}</p></div>
                         <div class="text-right font-mono text-[10px] opacity-50">${s.time}</div>
                     </div>
                     <div class="grid grid-cols-3 gap-2 mt-2">
-                        <div class="text-center">
-                            <p class="text-[7px] uppercase opacity-50 font-bold mb-1 tracking-tighter text-slate-500">Max Break</p>
-                            <p class="text-xl font-black">${s.maxBreak}</p>
-                        </div>
-                        <div class="text-center border-x border-slate-500/10">
-                            <p class="text-[7px] uppercase opacity-50 font-bold mb-1 tracking-tighter text-slate-500">Wbite</p>
-                            <p class="text-xl font-black text-emerald-500">${s.pots}</p>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-[7px] uppercase opacity-50 font-bold mb-1 tracking-tighter text-slate-500">Pudła</p>
-                            <p class="text-xl font-black text-rose-500">${s.misses || 0}</p>
-                        </div>
+                        <div class="text-center"><p class="text-[7px] uppercase opacity-50 font-bold mb-1 tracking-tighter">Max Break</p><p class="text-xl font-black">${s.maxBreak}</p></div>
+                        <div class="text-center border-x border-slate-500/10"><p class="text-[7px] uppercase opacity-50 font-bold mb-1 tracking-tighter">Wbite</p><p class="text-xl font-black text-emerald-500">${s.pots}</p></div>
+                        <div class="text-center"><p class="text-[7px] uppercase opacity-50 font-bold mb-1 tracking-tighter">Pudła</p><p class="text-xl font-black text-rose-500">${s.misses || 0}</p></div>
                     </div>
                 </div>
             `).join('');
         }
 
-        function clearAllData() {
-            if(confirm('Usunąć historię?')) {
-                localStorage.removeItem('snookerHistory');
-                renderHistory();
-            }
-        }
+        function clearAllData() { if(confirm('Usunąć historię?')) { localStorage.removeItem('snookerHistory'); renderHistory(); } }
 
         function startTimer() {
             clearInterval(state.timerInterval);
@@ -398,7 +352,6 @@
                 document.getElementById('session-timer').innerText = `${m}:${s}`;
             }, 1000);
         }
-
         applyTheme();
     </script>
 </body>
