@@ -79,7 +79,7 @@
 <body class="theme-dark font-sans h-screen flex flex-col overflow-hidden">
 
     <div id="update-banner" onclick="window.location.reload()">
-        Nowa wersja (1.0.9)! Kliknij by odświeżyć 🚀
+        Nowa wersja (1.1.0)! Kliknij by odświeżyć 🚀
     </div>
 
     <!-- HEADER -->
@@ -148,7 +148,7 @@
         </div>
         <div class="pt-20 opacity-30 text-center">
             <p class="text-[10px] font-black uppercase tracking-widest mb-1">Wersja Aplikacji</p>
-            <p class="font-mono text-xs font-bold text-emerald-500">v1.0.9</p>
+            <p class="font-mono text-xs font-bold text-emerald-500">v1.1.0</p>
         </div>
     </main>
 
@@ -310,14 +310,12 @@
 
         function handleMiss() {
             state.totalMisses++;
-            // Przy pudle zerujemy tylko aktualny break i historię kulek podejścia
             state.breakScore = 0;
             document.getElementById('shots-log').innerHTML = '';
             updateUI();
         }
 
         function resetRun() {
-            // Ręczny reset podejścia (bez doliczania pudła)
             state.breakScore = 0;
             document.getElementById('shots-log').innerHTML = '';
             updateUI();
@@ -358,7 +356,7 @@
                 return;
             }
             list.innerHTML = history.map(s => `
-                <div class="history-card p-4 rounded-2xl mb-3 shadow-sm border border-slate-500/5">
+                <div class="history-card p-4 rounded-2xl mb-3 shadow-sm border border-slate-500/5 transition-all">
                     <div class="flex justify-between items-start mb-2">
                         <div>
                             <p class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">${s.drill}</p>
